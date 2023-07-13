@@ -27,8 +27,16 @@ func operationNoop() {
 func calcCycle(ch chan int, done chan int) {
 	for v := range ch {
 		cycleCnt++
-		if cycleCnt == 20 || cycleCnt == 60 || cycleCnt == 100 || cycleCnt == 140 || cycleCnt == 180 || cycleCnt == 220 {
-			sum += cycleCnt * registerValue
+		currentPosition := (cycleCnt-1)%40 + 1
+
+		if currentPosition >= registerValue && currentPosition < registerValue+3 {
+			fmt.Printf("#")
+		} else {
+			fmt.Printf(".")
+		}
+
+		if cycleCnt%40 == 0 {
+			fmt.Printf("\n")
 		}
 		registerValue += v
 	}
@@ -74,6 +82,4 @@ func main() {
 	}
 
 	close(listener)
-
-	fmt.Println(sum)
 }
